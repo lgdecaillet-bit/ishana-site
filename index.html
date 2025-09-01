@@ -1,1 +1,49 @@
-<!-- Intro HTML content here -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Ishana — Intro</title>
+<link rel="preload" href="/assets/js/typed.js" as="script">
+<style>
+  html,body{height:100%;margin:0}
+  body{
+    background:#000;color:#fff;
+    font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    overflow:hidden; /* no scroll on intro */
+  }
+
+  .intro{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;opacity:0;transition:opacity .5s ease;width:100%;max-width:800px}
+  .intro.visible{opacity:1}
+  .typed{font-size:clamp(32px,6vw,64px);font-weight:900;letter-spacing:-.02em}
+  .caret{display:inline-block;width:2px;height:1em;background:#fff;margin-left:6px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .cta{display:inline-block;margin-top:26px;padding:14px 26px;border:2px solid #fff;color:#fff;text-decoration:none;border-radius:999px;font-weight:700;transition:.2s}
+  .cta:hover{background:#fff;color:#000}
+  .skip{position:fixed;left:16px;bottom:16px;padding:10px 16px;border:2px solid #fff;border-radius:999px;text-decoration:none;font-weight:600;transition:.2s;color:#fff}
+  .skip:hover{background:#fff;color:#000}
+  a:focus{outline:2px dashed #fff;outline-offset:3px}
+</style>
+</head>
+<body>
+  <!-- Will be set to /home.html?lang=xx by script -->
+  <a class="skip" id="skipLink" href="/home.html?lang=en" data-i18n="nav.skip">Skip intro →</a>
+
+  <main class="intro" id="introContent">
+    <div>
+      <div class="typed">
+        <span data-typed
+              data-phrases="We believe progress should have no borders.|Automation that empowers your business—and your vision."
+              data-type-speed="45" data-erase-speed="28" data-hold="1500"></span>
+        <span class="caret"></span>
+      </div>
+      <a class="cta" id="ctaLink" href="/home.html?lang=en" data-i18n="cta.go">Go to another level</a>
+    </div>
+  </main>
+
+  <script src="/assets/js/geo-detect.js"></script>
+  <script src="/assets/js/ip-logger.js"></script>
+  <script src="/assets/js/typed.js" defer></script>
+
+</body>
+</html>
