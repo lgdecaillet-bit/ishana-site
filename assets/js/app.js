@@ -46,6 +46,74 @@ addEventListener('click', e=>{
   });
 })();
 
+// Configure booking calendars (toggle 3 static iframes)
+(function(){
+  const SUP = ['en','es','fr'];
+  const route = location.pathname.split('/').filter(Boolean)[0];
+  const routeLang = SUP.includes(route) ? route : null;
+  const params = new URLSearchParams(location.search);
+  let lang = routeLang || params.get('lang') || localStorage.getItem('lang') || (navigator.language||'en').slice(0,2);
+  if(!SUP.includes(lang)) lang = 'en';
+  const elEn = document.getElementById('cal-en');
+  const elEs = document.getElementById('cal-es');
+  const elFr = document.getElementById('cal-fr');
+  if(elEn || elEs || elFr){
+    if(elEn) elEn.style.display = (lang==='en' ? 'block' : 'none');
+    if(elEs) elEs.style.display = (lang==='es' ? 'block' : 'none');
+    if(elFr) elFr.style.display = (lang==='fr' ? 'block' : 'none');
+  }
+})();
+
+// Configure contact form per language
+(function(){
+  const params = new URLSearchParams(location.search);
+  let lang = params.get('lang') || localStorage.getItem('lang') || (navigator.language||'en').slice(0,2);
+  if(!['en','es','fr'].includes(lang)) lang = 'en';
+  const form = document.querySelector('#contact iframe');
+  if(!form) return;
+  // Map language to specific form URLs (replace with your real IDs when available)
+  const FORM_MAP = {
+    en: 'https://api.leadconnectorhq.com/widget/form/t2oy5Eb6MXJHngHF98VY',
+    es: 'https://api.leadconnectorhq.com/widget/form/h3mVMQOqKqHWL7IXnps2',
+    fr: 'https://api.leadconnectorhq.com/widget/form/0mtsBAHbZ9Mgotzu43Nj'
+  };
+  const HEIGHT_MAP = { en: 611, es: 651, fr: 795 };
+  const nextSrc = FORM_MAP[lang] || FORM_MAP.en;
+  if(form.src !== nextSrc){ form.src = nextSrc; }
+  const nextHeight = HEIGHT_MAP[lang] || HEIGHT_MAP.en;
+  if(nextHeight){ form.style.height = `${nextHeight}px`; form.setAttribute('data-height', String(nextHeight)); }
+})();
+
+// React to language changes without navigation
+document.addEventListener('ish:lang-changed', (e)=>{
+  const lang = (e.detail && e.detail.lang) || 'en';
+  // Calendar: toggle visible iframe only
+  (function(){
+    const elEn = document.getElementById('cal-en');
+    const elEs = document.getElementById('cal-es');
+    const elFr = document.getElementById('cal-fr');
+    if(elEn || elEs || elFr){
+      if(elEn) elEn.style.display = (lang==='en' ? 'block' : 'none');
+      if(elEs) elEs.style.display = (lang==='es' ? 'block' : 'none');
+      if(elFr) elFr.style.display = (lang==='fr' ? 'block' : 'none');
+    }
+  })();
+  // Contact form
+  const form = document.querySelector('#contact iframe');
+  if(form){
+    const FORM_MAP = {
+      en: 'https://api.leadconnectorhq.com/widget/form/t2oy5Eb6MXJHngHF98VY',
+      es: 'https://api.leadconnectorhq.com/widget/form/h3mVMQOqKqHWL7IXnps2',
+      fr: 'https://api.leadconnectorhq.com/widget/form/0mtsBAHbZ9Mgotzu43Nj'
+    };
+    const HEIGHT_MAP = { en: 611, es: 651, fr: 795 };
+    const nextSrc = FORM_MAP[lang] || FORM_MAP.en;
+    if(form.src !== nextSrc){ form.src = nextSrc; }
+    const nextHeight = HEIGHT_MAP[lang] || HEIGHT_MAP.en;
+    if(nextHeight){ form.style.height = `${nextHeight}px`; form.setAttribute('data-height', String(nextHeight)); }
+  }
+});
+
 // Language dropdown menu
 addEventListener('click', e => {
   const langToggle = e.target.closest('[data-lang-toggle]');

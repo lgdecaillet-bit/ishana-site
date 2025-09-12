@@ -9,8 +9,10 @@
   "nav.booking": "Booking",
   "nav.contact": "Contact",
   "nav.skip": "Skip intro →",
+  "nav.lang": "Language",
   
   "loading.detecting": "Detecting your location...",
+  "intro.phrases": "We believe progress should have no borders.|Automation that empowers your business—and your vision.",
 
   "hero.title": "Efficiency that drives real growth.",
   "hero.sub": "With tailored automations and agents, we build and manage everything—so you gain time, clarity, and measurable growth.",
@@ -74,7 +76,7 @@
   "contact.formPH": "Embed GHL Contact Form here",
   
   "footer.brand": "Ishana Solutions",
-  "footer.address": "Rue des arpenteurs 6<br>1217<br>Genève, Switzerland",
+  "footer.address": "Geneva, Switzerland",
   "footer.email": "info@ishana.tech",
   "footer.tagline": "Efficiency that drives real growth.",
   "footer.cta": "Go to another level",

@@ -1,29 +1,43 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Ishana — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/aesthetic.css">
+<script src="/assets/js/geo-detect.js" defer></script>
 <script src="/assets/js/i18n.js" defer></script>
 <script src="/assets/js/app.js" defer></script>
+<script src="/assets/js/aesthetic.js" defer></script>
 </head>
 <body>
+  <div class="aurora"></div>
+  <div class="aurora-2"></div>
   <!-- Header with language toggle -->
-  <header class="ish-header">
-    <div class="row">
-      <div class="brand" data-i18n="brand">ishana</div>
-      <nav class="actions">
-        <button class="menu-toggle" data-menu-toggle>Menu</button>
+  <header class="nav">
+    <div class="wrap">
+      <div class="brand"><div class="mark"></div><span data-i18n="brand">ishana</span></div>
+      <nav class="menu">
+        <a href="#home" data-i18n="nav.home">Home</a>
+        <a href="#difference" data-i18n="nav.difference">ishana Difference</a>
+        <a href="#services" data-i18n="nav.services">Our Services</a>
+        <a href="#team" data-i18n="nav.team">Our Team</a>
+        <a href="#faq" data-i18n="nav.faq">FAQ</a>
+        <a href="#booking" data-i18n="nav.booking">Booking</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+      </nav>
+      <div class="actions">
         <div class="lang-dropdown">
-          <button class="lang-btn" data-lang-toggle>Language</button>
+          <button class="theme-toggle" data-lang-toggle data-i18n="nav.lang">Language</button>
           <div class="lang-menu" data-lang-menu>
-            <button data-lang="en">English</button>
-            <button data-lang="es">Español</button>
-            <button data-lang="fr">Français</button>
+            <button data-lang="en"><span class="flag" aria-hidden="true">🇬🇧</span> English</button>
+            <button data-lang="es"><span class="flag" aria-hidden="true">🇨🇴</span> Español</button>
+            <button data-lang="fr"><span class="flag" aria-hidden="true">🇨🇭</span> Français</button>
           </div>
         </div>
-        <a href="#booking" class="btn" data-i18n="cta.go">Go to another level</a>
-      </nav>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">Theme</button>
+      </div>
     </div>
   </header>
 
@@ -46,13 +60,16 @@
   </div>
 
   <!-- HOME / HERO -->
-  <section class="section hero" id="home">
-    <div class="container center stack-24">
-      <h1 data-i18n="hero.title">Efficiency that drives real growth.</h1>
-      <p class="muted" style="max-width:760px;margin:0 auto" data-i18n="hero.sub">
-        With tailored automations and agents, we build and manage everything—so you gain time, clarity, and measurable growth.
-      </p>
-      <div><a href="#booking" class="btn" data-i18n="cta.go">Go to another level</a></div>
+  <section class="hero" id="home">
+    <div class="wrap">
+      <div class="shell" id="heroShell">
+        <div class="greek-key"></div>
+        <h1><span class="fx" data-i18n="brand">ishana</span> — <span data-i18n="hero.title">Efficiency that drives real growth.</span></h1>
+        <p data-i18n="hero.sub">With tailored automations and agents, we build and manage everything—so you gain time, clarity, and measurable growth.</p>
+        <div class="mt-3">
+          <a class="btn btn-primary" href="#booking" data-i18n="cta.go">Go to another level</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -69,67 +86,59 @@
     </div>
   </section>
 
-  <!-- SERVICES (Accordion) -->
+  <!-- SERVICES (Cards Grid) -->
   <section class="section" id="services">
     <div class="container stack-24">
       <h2 data-i18n="nav.services">Our Services</h2>
 
-      <div class="services-acc">
-        <div class="svc-item">
-          <button class="svc-q"><span data-i18n="svc.automations.title">Automations</span><span class="chev">›</span></button>
-          <div class="svc-a"><div class="svc-body" data-i18n="svc.automations.body">
-            Automations replace repetitive, manual tasks with seamless, self-running systems across your funnel...
-          </div></div>
-        </div>
+      <div class="svc-grid">
+        <article class="svc-card reveal">
+          <div class="svc-icon">⚙️</div>
+          <h3 data-i18n="svc.automations.title">Automations</h3>
+          <p class="muted" data-i18n="svc.automations.body">Automations replace repetitive, manual tasks with seamless, self-running systems across your funnel...</p>
+        </article>
 
-        <div class="svc-item">
-          <button class="svc-q"><span data-i18n="svc.agents.title">Agents</span><span class="chev">›</span></button>
-          <div class="svc-a"><div class="svc-body" data-i18n="svc.agents.body">
-            Always-on digital team members that monitor inboxes, calendars, and pipelines; reply to prospects...
-          </div></div>
-        </div>
+        <article class="svc-card reveal">
+          <div class="svc-icon">🤖</div>
+          <h3 data-i18n="svc.agents.title">Agents</h3>
+          <p class="muted" data-i18n="svc.agents.body">Always-on digital team members that monitor inboxes, calendars, and pipelines; reply to prospects...</p>
+        </article>
 
-        <div class="svc-item">
-          <button class="svc-q"><span data-i18n="svc.crm.title">CRM & Pipeline Management</span><span class="chev">›</span></button>
-          <div class="svc-a"><div class="svc-body" data-i18n="svc.crm.body">
-            Every contact, stage, and activity in one place. We standardize fields, deduplicate data...
-          </div></div>
-        </div>
+        <article class="svc-card reveal">
+          <div class="svc-icon">📇</div>
+          <h3 data-i18n="svc.crm.title">CRM & Pipeline Management</h3>
+          <p class="muted" data-i18n="svc.crm.body">Every contact, stage, and activity in one place. We standardize fields, deduplicate data...</p>
+        </article>
 
-        <div class="svc-item">
-          <button class="svc-q"><span data-i18n="svc.marketing.title">Marketing Tools</span><span class="chev">›</span></button>
-          <div class="svc-a"><div class="svc-body" data-i18n="svc.marketing.body">
-            Email, SMS, and social campaigns coordinated with landing pages and forms...
-          </div></div>
-        </div>
+        <article class="svc-card reveal">
+          <div class="svc-icon">📣</div>
+          <h3 data-i18n="svc.marketing.title">Marketing Tools</h3>
+          <p class="muted" data-i18n="svc.marketing.body">Email, SMS, and social campaigns coordinated with landing pages and forms...</p>
+        </article>
 
-        <div class="svc-item">
-          <button class="svc-q"><span data-i18n="svc.analytics.title">Analytics & Reporting</span><span class="chev">›</span></button>
-          <div class="svc-a"><div class="svc-body" data-i18n="svc.analytics.body">
-            Dashboards that surface signal, not noise: pipeline velocity, conversion by stage...
-          </div></div>
-        </div>
+        <article class="svc-card reveal">
+          <div class="svc-icon">📊</div>
+          <h3 data-i18n="svc.analytics.title">Analytics & Reporting</h3>
+          <p class="muted" data-i18n="svc.analytics.body">Dashboards that surface signal, not noise: pipeline velocity, conversion by stage...</p>
+        </article>
 
-        <div class="svc-item">
-          <button class="svc-q"><span data-i18n="svc.web.title">Web Pages</span><span class="chev">›</span></button>
-          <div class="svc-a"><div class="svc-body" data-i18n="svc.web.body">
-            Conversion-ready pages built in GHL (or your stack): fast, accessible, SEO-ready...
-          </div></div>
-        </div>
+        <article class="svc-card reveal">
+          <div class="svc-icon">🕸️</div>
+          <h3 data-i18n="svc.web.title">Web Pages</h3>
+          <p class="muted" data-i18n="svc.web.body">Conversion-ready pages built in GHL (or your stack): fast, accessible, SEO-ready...</p>
+        </article>
 
-        <div class="svc-item">
-          <button class="svc-q"><span data-i18n="svc.booking.title">Calendar & Booking</span><span class="chev">›</span></button>
-          <div class="svc-a"><div class="svc-body" data-i18n="svc.booking.body">
-            Scheduling without back-and-forth: instant booking, time-zone handling, reminders...
-          </div></div>
-        </div>
+        <article class="svc-card reveal">
+          <div class="svc-icon">🗓️</div>
+          <h3 data-i18n="svc.booking.title">Calendar & Booking</h3>
+          <p class="muted" data-i18n="svc.booking.body">Scheduling without back-and-forth: instant booking, time-zone handling, reminders...</p>
+        </article>
 
-        <div class="svc-item">
-          <button class="svc-q"><span data-i18n="svc.reputation.title">Reputation Management</span><span class="chev">›</span></button>
-          <div class="svc-a"><div class="svc-body" data-i18n="svc.reputation.body">
-            Request, collect, and showcase reviews while routing negative feedback to a fast-response loop...
-          </div></div>
-        </div>
+        <article class="svc-card reveal">
+          <div class="svc-icon">⭐</div>
+          <h3 data-i18n="svc.reputation.title">Reputation Management</h3>
+          <p class="muted" data-i18n="svc.reputation.body">Request, collect, and showcase reviews while routing negative feedback to a fast-response loop...</p>
+        </article>
       </div>
     </div>
   </section>
@@ -150,14 +159,28 @@
       <h2 data-i18n="booking.title">Book your free consultancy meeting.</h2>
       <p class="muted" data-i18n="booking.sub">Pick your time, share your details, and let us show you how to take your business to another level.</p>
 
-      <!-- Replace the placeholders below with your GHL Calendar + Form embeds -->
-      <iframe 
-        src="https://api.leadconnectorhq.com/widget/booking/SltrHeFJoUviwPxJydRw" 
-        style="width: 100%;border:none;overflow: hidden;" 
-        scrolling="no" 
-        id="msgsndr-calendar">
-      </iframe>
-      <script src="https://link.msgsndr.com/js/embed.js" type="text/javascript"></script>
+      <!-- Calendars: only one visible at a time -->
+      <div id="calendars">
+        <iframe
+          id="cal-en"
+          src="https://api.leadconnectorhq.com/widget/booking/hA9VcusthEugZG5eMJWe"
+          style="width:100%;border:none;overflow:hidden;display:none;height:920px"
+          scrolling="no"
+          title="Calendar EN"></iframe>
+        <iframe
+          id="cal-es"
+          src="https://api.leadconnectorhq.com/widget/booking/SltrHeFJoUviwPxJydRw"
+          style="width:100%;border:none;overflow:hidden;display:block;height:920px"
+          scrolling="no"
+          title="Calendar ES"></iframe>
+        <iframe
+          id="cal-fr"
+          src="https://api.leadconnectorhq.com/widget/booking/dirXyUAb4KPhoSjm3LOu"
+          style="width:100%;border:none;overflow:hidden;display:none;height:920px"
+          scrolling="no"
+          title="Calendar FR"></iframe>
+      </div>
+      
 
     </div>
   </section>
@@ -170,43 +193,43 @@
 
       <div class="faq">
         <div class="faq-item">
-          <button class="faq-q"><span data-i18n="faq.q1">What happens in the free consultancy meeting?</span><span class="chev">›</span></button>
+          <button class="faq-q"><span class="label"><span class="n">1</span><span data-i18n="faq.q1">What happens in the free consultancy meeting?</span></span><span class="chev">›</span></button>
           <div class="faq-a"><div class="faq-body" data-i18n="faq.a1">We analyze your goals, identify inefficiencies, and map automations and agents...</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q"><span data-i18n="faq.q2">How fast is delivery?</span><span class="chev">›</span></button>
+          <button class="faq-q"><span class="label"><span class="n">2</span><span data-i18n="faq.q2">How fast is delivery?</span></span><span class="chev">›</span></button>
           <div class="faq-a"><div class="faq-body" data-i18n="faq.a2">Standard projects ship within 10 days...</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q"><span data-i18n="faq.q3">What's included in a typical build?</span><span class="chev">›</span></button>
+          <button class="faq-q"><span class="label"><span class="n">3</span><span data-i18n="faq.q3">What's included in a typical build?</span></span><span class="chev">›</span></button>
           <div class="faq-a"><div class="faq-body" data-i18n="faq.a3">Automations, agents, CRM & pipelines, web pages, marketing (email, SMS, social), analytics...</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q"><span data-i18n="faq.q4">Automations vs. Agents—what's the difference?</span><span class="chev">›</span></button>
+          <button class="faq-q"><span class="label"><span class="n">4</span><span data-i18n="faq.q4">Automations vs. Agents—what's the difference?</span></span><span class="chev">›</span></button>
           <div class="faq-a"><div class="faq-body" data-i18n="faq.a4"><strong>Automations</strong> are predefined workflows; <strong>Agents</strong> monitor, optimize, and act continuously...</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q"><span data-i18n="faq.q5">Do you work with companies of all sizes—and individuals?</span><span class="chev">›</span></button>
+          <button class="faq-q"><span class="label"><span class="n">5</span><span data-i18n="faq.q5">Do you work with companies of all sizes—and individuals?</span></span><span class="chev">›</span></button>
           <div class="faq-a"><div class="faq-body" data-i18n="faq.a5">Yes—scope and architecture are tailored from solo founders to enterprises.</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q"><span data-i18n="faq.q6">Which tools and platforms can you integrate?</span><span class="chev">›</span></button>
+          <button class="faq-q"><span class="label"><span class="n">6</span><span data-i18n="faq.q6">Which tools and platforms can you integrate?</span></span><span class="chev">›</span></button>
           <div class="faq-a"><div class="faq-body" data-i18n="faq.a6">Calendars, email systems, SMS platforms, social channels, payment gateways, analytics, CRMs...</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q"><span data-i18n="faq.q7">How do support and maintenance work?</span><span class="chev">›</span></button>
+          <button class="faq-q"><span class="label"><span class="n">7</span><span data-i18n="faq.q7">How do support and maintenance work?</span></span><span class="chev">›</span></button>
           <div class="faq-a"><div class="faq-body" data-i18n="faq.a7">We act like a 24/7 technical department with proactive monitoring...</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q"><span data-i18n="faq.q8">How is pricing structured?</span><span class="chev">›</span></button>
+          <button class="faq-q"><span class="label"><span class="n">8</span><span data-i18n="faq.q8">How is pricing structured?</span></span><span class="chev">›</span></button>
           <div class="faq-a"><div class="faq-body" data-i18n="faq.a8">After the consultancy, you receive a scoped proposal with fixed delivery and clear outcomes...</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q"><span data-i18n="faq.q9">Is my data secure?</span><span class="chev">›</span></button>
+          <button class="faq-q"><span class="label"><span class="n">9</span><span data-i18n="faq.q9">Is my data secure?</span></span><span class="chev">›</span></button>
           <div class="faq-a"><div class="faq-body" data-i18n="faq.a9">Encryption, role-based permissions, and best-practice compliance (e.g., GDPR)...</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q"><span data-i18n="faq.q10">How do we get started?</span><span class="chev">›</span></button>
+          <button class="faq-q"><span class="label"><span class="n">10</span><span data-i18n="faq.q10">How do we get started?</span></span><span class="chev">›</span></button>
           <div class="faq-a"><div class="faq-body" data-i18n="faq.a10">Book your free consultancy, choose a time, and share your details. Within 10 days...</div></div>
         </div>
       </div>
@@ -254,7 +277,7 @@
           </div>
           <div class="footer-tagline">
             <p data-i18n="footer.tagline">Efficiency that drives real growth.</p>
-            <a href="#hero" class="btn btn-primary" data-i18n="footer.cta">Go to another level</a>
+            <a href="#booking" class="btn btn-primary" data-i18n="footer.cta">Go to another level</a>
           </div>
         </div>
 
@@ -284,11 +307,11 @@
         <div class="footer-section">
           <h4 data-i18n="footer.language.title">LANGUAGE</h4>
           <div class="footer-languages">
-            <a href="?lang=en" class="lang-link">EN</a>
+            <a href="?lang=en" class="lang-link"><span class="flag" aria-hidden="true">🇬🇧</span> EN</a>
             <span class="separator">|</span>
-            <a href="?lang=es" class="lang-link">ES</a>
+            <a href="?lang=es" class="lang-link"><span class="flag" aria-hidden="true">🇨🇴</span> ES</a>
             <span class="separator">|</span>
-            <a href="?lang=fr" class="lang-link">FR</a>
+            <a href="?lang=fr" class="lang-link"><span class="flag" aria-hidden="true">🇨🇭</span> FR</a>
           </div>
         </div>
       </div>
