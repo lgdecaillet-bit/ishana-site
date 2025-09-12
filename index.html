@@ -1,179 +1,49 @@
-<!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ishana — Kit estético</title>
-  <!-- Tipografías: sans futurista + toque clásico -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
-  <script src="/assets/js/geo-detect.js" defer></script>
-  <script src="/assets/js/ip-logger.js" defer></script>
-  <script src="/assets/js/i18n.js" defer></script>
-  <script src="/assets/js/typed.js" defer></script>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Ishana — Intro</title>
+<link rel="preload" href="/assets/js/typed.js" as="script">
 <style>
-    /* =============================
-       1) Variables & Reset
-       ============================= */
-    :root {
-      --sand: #EED9C4;
-      --oasis: #16A34A; /* green */
-      --obsidian: #0D0F12;
-      --ink: #0E0E10;
-      --gold: #FF8C42; /* orange */
-      --violet: #E23C3C; /* red */
-      --marble: rgba(255,255,255,0.04);
-      --glass: rgba(255,255,255,0.08);
-      --text: #F2F5F7;
-      --muted: #A8B1BA;
-      --radius: 18px;
-      --maxw: 1200px;
-      --shadow: 0 10px 30px rgba(0,0,0,.45);
-      --grad-aurora: radial-gradient(1200px 600px at 80% 0%, rgba(226,60,60,0.18), transparent 60%),
-                     radial-gradient(900px 500px at 0% 20%, rgba(22,163,74,0.18), transparent 60%),
-                     radial-gradient(700px 400px at 60% 80%, rgba(255,140,66,0.16), transparent 60%);
-    }
-    html[data-theme="light"] {
-      --obsidian: #F7F7F9;
-      --ink: #FFFFFF;
-      --text: #0E0E10;
-      --muted: #475569;
-      --marble: rgba(0,0,0,0.04);
-      --glass: rgba(0,0,0,0.06);
-      --shadow: 0 10px 30px rgba(0,0,0,.10);
-    }
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0; color: var(--text);
-      background: radial-gradient(80% 100% at 50% 0%, #151823, #0a0c10 60%) , var(--obsidian);
-      background-blend-mode: overlay;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      line-height: 1.6;
-    }
-    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+  html,body{height:100%;margin:0}
+  body{
+    background:#000;color:#fff;
+    font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    overflow:hidden; /* no scroll on intro */
+  }
 
-    /* =============================
-       2) Decor: ruido sutil + aurora
-       ============================= */
-    body::before { /* overlay de ruido */
-      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="300" height="300" filter="url(%23n)" opacity="0.035"/></svg>');
-    }
-    .aurora {
-      position: fixed; inset: -10% -10% auto -10%; height: 60vh; z-index: 0;
-      background: var(--grad-aurora);
-      filter: blur(40px) saturate(120%);
-      pointer-events: none; opacity: 0.9;
-    }
-
-    /* =============================
-       3) Nav de vidrio + subrayado animado
-       ============================= */
-    .nav {
-      position: sticky; top: 0; z-index: 50;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.15));
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-    .brand { display: flex; align-items: center; gap: 12px; letter-spacing: 2px; font-weight: 800; }
-    .brand .mark { width: 28px; height: 28px; border-radius: 9px; background:
-      conic-gradient(from 180deg at 50% 50%, var(--violet), var(--oasis), var(--gold), var(--violet));
-      box-shadow: 0 0 0 2px rgba(255,255,255,0.08) inset, 0 8px 20px rgba(0,0,0,0.45);
-    }
-    .menu { display: flex; gap: 20px; }
-    .menu a { position: relative; text-decoration: none; color: var(--text); font-weight: 500; opacity: .85; }
-    .menu a:hover { opacity: 1; }
-    .menu a::after {
-      content: ""; position: absolute; left: 0; bottom: -6px; height: 2px; width: 0%;
-      background: linear-gradient(90deg, var(--oasis), var(--violet)); border-radius: 2px; transition: width .25s ease;
-    }
-    .menu a:hover::after { width: 100%; }
-
-    .theme-toggle { cursor: pointer; border: 1px solid rgba(255,255,255,.12); background: var(--glass); color: var(--text); padding: 8px 12px; border-radius: 999px; font-size: 12px; }
-
-    /* =============================
-       4) Hero con borde griego + parallax sutil
-       ============================= */
-    .hero { position: relative; z-index: 1; padding: 96px 0 56px; }
-    .hero .shell { position: relative; border-radius: var(--radius); overflow: hidden; padding: 56px 36px; background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow); }
-    .greek-key {
-      --g: linear-gradient(90deg, transparent 47%, var(--oasis) 50%, transparent 53%) 0 0/28px 2px,
-           linear-gradient(0deg, transparent 47%, var(--oasis) 50%, transparent 53%) 0 0/2px 28px,
-           linear-gradient(90deg, transparent 47%, var(--oasis) 50%, transparent 53%) 0 100%/28px 2px,
-           linear-gradient(0deg, transparent 47%, var(--oasis) 50%, transparent 53%) 100% 0/2px 28px;
-      position: absolute; inset: 0; background: var(--g); pointer-events: none; opacity: .25;
-      mask-image: linear-gradient(to bottom, black, transparent 15%);
-    }
-    .hero h1 { font-size: clamp(36px, 7vw, 72px); line-height: 1.05; margin: 0 0 14px; font-weight: 800; letter-spacing: -0.02em; }
-    .hero h1 .fx { background: linear-gradient(90deg, var(--sand), var(--gold) 30%, var(--oasis) 65%, var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .hero p { max-width: 60ch; color: var(--muted); margin: 0 0 28px; }
-
-    /* =============================
-       5) Botones con borde lumínico
-       ============================= */
-    .btn {
-      position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 12px; font-weight: 600; text-decoration: none; color: var(--text); background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03)); border: 1px solid rgba(255,255,255,0.14); box-shadow: var(--shadow); transform: translateZ(0);
-    }
-    .btn::before { content: ""; position: absolute; inset: -1px; border-radius: 13px; padding: 1px; background: linear-gradient(135deg, rgba(124,92,255,.9), rgba(0,194,168,.9), rgba(245,196,81,.9)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: .6; transition: opacity .25s ease; }
-    .btn:hover::before { opacity: 1; }
-    .btn-primary { background: radial-gradient(120% 180% at 0% 0%, rgba(124,92,255,0.18), rgba(0,0,0,0) 30%), linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02)); }
-
-    /* =============================
-       6) Grid de features (cartas vidrio)
-       ============================= */
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
-    .feature { grid-column: span 12; padding: 22px; border-radius: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.10); box-shadow: var(--shadow); transform: translateY(6px); opacity: 0; transition: transform .5s ease, opacity .5s ease, box-shadow .25s ease; }
-    .feature.in { transform: translateY(0); opacity: 1; }
-    .feature:hover { box-shadow: 0 20px 50px rgba(0,0,0,.5); }
-    .feature h3 { margin: 0 0 6px; font-weight: 700; letter-spacing: .2px; }
-    .feature p { margin: 0; color: var(--muted); }
-    @media (min-width: 820px) {
-      .feature { grid-column: span 4; }
-    }
-
-    /* =============================
-       7) Separadores tipo dunas (SVG)
-       ============================= */
-    .divider { position: relative; height: 64px; }
-    .divider svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-
-    /* =============================
-       8) Footer constelación
-       ============================= */
-    .footer { position: relative; z-index: 1; padding: 56px 0; color: var(--muted); }
-    .dots { position: absolute; inset: 0; pointer-events: none; opacity: .35; background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,.18) 1px, transparent 2px), radial-gradient(circle at 70% 60%, rgba(255,255,255,.12) 1px, transparent 2px), radial-gradient(circle at 40% 80%, rgba(255,255,255,.15) 1px, transparent 2px); background-size: 240px 240px, 260px 260px, 280px 280px; filter: blur(.4px); }
-
-    /* =============================
-       9) Utilidades
-       ============================= */
-    .mt-2 { margin-top: 8px; } .mt-3 { margin-top: 16px; } .mt-4 { margin-top: 24px; } .mt-6 { margin-top: 36px; }
-    .center { text-align: center; }
-
-    /* Intro specific */
-    .intro{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;opacity:0;transition:opacity .5s ease;width:100%;max-width:860px;padding:0 24px;z-index:1}
+  .intro{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;opacity:0;transition:opacity .5s ease;width:100%;max-width:800px}
   .intro.visible{opacity:1}
   .typed{font-size:clamp(32px,6vw,64px);font-weight:900;letter-spacing:-.02em}
   .caret{display:inline-block;width:2px;height:1em;background:#fff;margin-left:6px;animation:blink 1s steps(1) infinite}
   @keyframes blink{50%{opacity:0}}
   .cta{display:inline-block;margin-top:26px;padding:14px 26px;border:2px solid #fff;color:#fff;text-decoration:none;border-radius:999px;font-weight:700;transition:.2s}
   .cta:hover{background:#fff;color:#000}
-    .skip{position:fixed;left:16px;bottom:16px;padding:10px 16px;border:2px solid #fff;border-radius:999px;text-decoration:none;font-weight:600;transition:.2s;color:#fff;z-index:2}
+  .skip{position:fixed;left:16px;bottom:16px;padding:10px 16px;border:2px solid #fff;border-radius:999px;text-decoration:none;font-weight:600;transition:.2s;color:#fff}
   .skip:hover{background:#fff;color:#000}
+  a:focus{outline:2px dashed #fff;outline-offset:3px}
 </style>
 </head>
 <body>
-  <div class="aurora"></div>
-  <div class="aurora-2"></div>
-  <a class="skip" id="skipLink" href="/en/home.html" data-i18n="nav.skip">Skip intro →</a>
-  <main class="intro" id="introContent" aria-live="polite">
+  <!-- Will be set to /home.html?lang=xx by script -->
+  <a class="skip" id="skipLink" href="/home.html?lang=en" data-i18n="nav.skip">Skip intro →</a>
+
+  <main class="intro" id="introContent">
     <div>
       <div class="typed">
-        <span data-typed data-phrases="We believe progress should have no borders.|Automation that empowers your business—and your vision."></span>
+        <span data-typed
+              data-phrases="We believe progress should have no borders.|Automation that empowers your business—and your vision."
+              data-type-speed="45" data-erase-speed="28" data-hold="1500"></span>
         <span class="caret"></span>
       </div>
-      <a class="cta" id="ctaLink" href="/en/home.html" data-i18n="cta.go">Go to another level</a>
+      <a class="cta" id="ctaLink" href="/home.html?lang=en" data-i18n="cta.go">Go to another level</a>
     </div>
   </main>
+
+  <script src="/assets/js/geo-detect.js"></script>
+  <script src="/assets/js/ip-logger.js"></script>
+  <script src="/assets/js/typed.js" defer></script>
+
 </body>
 </html>

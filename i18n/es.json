@@ -9,7 +9,6 @@
   "nav.booking": "Reservas",
   "nav.contact": "Contacto",
   "nav.skip": "Saltar intro →",
-  "nav.lang": "Idioma",
 
   "hero.title": "Automatizaciones y agentes que aceleran el crecimiento real.",
   "hero.sub": "En solo 10 días instalamos y gestionamos los sistemas que liberan tu tiempo, afinan tus operaciones y generan resultados medibles.",
@@ -77,7 +76,7 @@
   "loading.detecting": "Detectando tu ubicación...",
   
   "footer.brand": "Ishana Solutions",
-  "footer.address": "Ginebra, Suiza",
+  "footer.address": "Rue des arpenteurs 6<br>1217<br>Genève, Switzerland",
   "footer.email": "info@ishana.tech",
   "footer.tagline": "Eficiencia que impulsa el crecimiento real.",
   "footer.cta": "Ve al siguiente nivel",

@@ -9,7 +9,6 @@
   "nav.booking": "Réservation",
   "nav.contact": "Contact",
   "nav.skip": "Passer l'intro →",
-  "nav.lang": "Langue",
 
   "hero.title": "Une efficacité qui génère une vraie croissance.",
   "hero.sub": "Avec des automatisations et des agents sur mesure, nous concevons et gérons tout—vous gagnez du temps, de la clarté et une croissance mesurable.",
@@ -74,10 +73,10 @@
   
   "intro.phrases": "Nous croyons que le progrès ne doit pas avoir de frontières.|L'automatisation qui donne du pouvoir à votre entreprise—et à votre vision.",
   
-  "loading.detecting": "Détection de votre position...",
+  "loading.detecting": "Détection de votre localisation...",
   
   "footer.brand": "Ishana Solutions",
-  "footer.address": "Genève, Switzerland",
+  "footer.address": "Rue des arpenteurs 6<br>1217<br>Genève, Switzerland",
   "footer.email": "info@ishana.tech",
   "footer.tagline": "L'efficacité qui génère une vraie croissance.",
   "footer.cta": "Passez au niveau supérieur",

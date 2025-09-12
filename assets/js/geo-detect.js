@@ -33,7 +33,7 @@
     'FR': 'fr', // France
     'CA': 'fr', // Canada (French regions: Quebec, New Brunswick, etc.)
     'BE': 'fr', // Belgium (Wallonia region)
-    'CH': 'fr', // Switzerland default to French; regions handled below
+    'CH': 'fr', // Switzerland (French regions: Geneva, Vaud, Neuchâtel, etc.)
     'LU': 'fr', // Luxembourg
     'MC': 'fr', // Monaco
     'AD': 'fr', // Andorra (French influence)
@@ -91,7 +91,7 @@
     'PH': 'en', // Philippines (English regions)
     'CA': 'en', // Canada (English regions: Ontario, British Columbia, etc.)
     'BE': 'en', // Belgium (Flemish regions)
-    // 'CH': 'en', // Removed: handled by region logic, default is 'fr'
+    'CH': 'en', // Switzerland (German/Italian regions)
     'LU': 'en', // Luxembourg (German regions)
     'AT': 'en', // Austria
     'DE': 'en', // Germany
@@ -223,9 +223,9 @@
       const italianRegions = ['TI'];
       
       if (frenchRegions.includes(region)) return 'fr';
-      if (germanRegions.includes(region)) return 'en';
-      if (italianRegions.includes(region)) return 'en';
-      return 'fr'; // Default to French in CH
+      if (germanRegions.includes(region)) return 'en'; // German regions default to English
+      if (italianRegions.includes(region)) return 'en'; // Italian regions default to English
+      return 'en'; // Default to English
     }
     
     if (countryCode === 'CA' && region) {
@@ -276,14 +276,13 @@
         .then(data => {
           console.log('Language data loaded:', data);
           
-          const phrases = (data.intro && data.intro.phrases) || data["intro.phrases"];
-          if (phrases) {
+          if (data.intro && data.intro.phrases) {
             const typedElement = document.querySelector('[data-typed]');
             if (typedElement) {
               console.log('Updating typed element with phrases:', data.intro.phrases);
               
               // Update the data-phrases attribute
-              typedElement.setAttribute('data-phrases', phrases);
+              typedElement.setAttribute('data-phrases', data.intro.phrases);
               
               // Wait for Typed.js to be available
               const initTyped = () => {
@@ -297,7 +296,7 @@
                   
                   // Create new typed instance with translated phrases
                   window.typedInstance = new Typed(typedElement, {
-                    strings: phrases.split('|'),
+                    strings: data.intro.phrases.split('|'),
                     typeSpeed: 45,
                     backSpeed: 28,
                     backDelay: 1500,
@@ -349,27 +348,36 @@
     const ctaLink = document.getElementById('ctaLink');
     
     if (skipLink) {
-      skipLink.href = `/${lang}/home.html`;
+      skipLink.href = `/home.html?lang=${lang}`;
     }
     if (ctaLink) {
-      ctaLink.href = `/${lang}/home.html`;
+      ctaLink.href = `/home.html?lang=${lang}`;
     }
   }
 
   // Function to set language and update UI
   function setLanguage(lang) {
+    // Store in localStorage
     localStorage.setItem('lang', lang);
-    const params = new URLSearchParams(window.location.search);
-    params.set('lang', lang);
-    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}${location.hash||''}`);
-    // If we're on home.html, do not reload; notify listeners to update UI (calendars/forms/i18n)
+    
+    // Update URL if on home.html
     if (window.location.pathname.includes('home.html')) {
-      try { document.documentElement.setAttribute('lang', lang); } catch(_) {}
-      document.dispatchEvent(new CustomEvent('ish:lang-changed', { detail: { lang } }));
-      return;
+      const params = new URLSearchParams(window.location.search);
+      params.set('lang', lang);
+      window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+      
+      // Reload page to apply new language
+      window.location.reload();
     }
-    // If on intro/index, update its content live
+    
+    // Update intro page if on index.html
     if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+      const params = new URLSearchParams(window.location.search);
+      params.set('lang', lang);
+      // Don't redirect, just update the URL and content
+      window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+      
+      // Show intro content in detected language
       showIntroInLanguage(lang);
     }
   }
@@ -377,19 +385,6 @@
   // Function to detect IP and country
   async function detectLocationAndSetLanguage() {
     console.log('=== DETECTING LOCATION STARTED ===');
-    // Do not override explicit route-language pages like /en/home.html, /es/home.html, /fr/home.html
-    try{
-      const seg = window.location.pathname.split('/').filter(Boolean)[0];
-      const manual = localStorage.getItem('ish-lang-manual') === '1';
-      if (manual) { console.log('Manual language selected; skipping geo'); return; }
-      if (['en','es','fr'].includes(seg) && window.location.pathname.includes('home.html')) {
-        console.log('Route-based language detected (', seg, ') — skipping geo override on home');
-        // Normalize storage to route language immediately
-        try { document.documentElement.setAttribute('lang', seg); } catch(_) {}
-        localStorage.setItem('lang', seg);
-        return;
-      }
-    }catch(_){/* ignore */}
     
     try {
       // Check if we already have a stored language preference
@@ -431,18 +426,8 @@
       const detectedLang = await getLanguageFromCountry(countryCode, region);
       console.log('Detected language:', detectedLang);
 
-      // Apply on current page
-      if (window.location.pathname.includes('home.html')) {
-        // Do not override route pages even if geo differs
-        const seg = window.location.pathname.split('/').filter(Boolean)[0];
-        if(['en','es','fr'].includes(seg)) {
-          console.log('On route page; not overriding with detected language');
-          return;
-        }
-        setLanguage(detectedLang); // dispatch change (no reload)
-      } else {
-        showIntroInLanguage(detectedLang);
-      }
+      // Show intro in detected language
+      showIntroInLanguage(detectedLang);
 
     } catch (error) {
       console.error('Error detecting location:', error);
@@ -471,11 +456,8 @@
           
           const detectedLang = await getLanguageFromCountry(countryCode, region);
           console.log('Detected language (alt):', detectedLang);
-          if (window.location.pathname.includes('home.html')) {
-            setLanguage(detectedLang);
-          } else {
-            showIntroInLanguage(detectedLang);
-          }
+          
+          showIntroInLanguage(detectedLang);
         } else {
           throw new Error('Alternative service also failed');
         }
@@ -488,11 +470,7 @@
                             browserLang.startsWith('fr') ? 'fr' : 'en';
         
         console.log('Using browser language fallback:', fallbackLang);
-        if (window.location.pathname.includes('home.html')) {
-          setLanguage(fallbackLang);
-        } else {
-          showIntroInLanguage(fallbackLang);
-        }
+        showIntroInLanguage(fallbackLang);
       }
     }
   }
