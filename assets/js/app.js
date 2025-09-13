@@ -3,8 +3,46 @@ addEventListener('click', e=>{
   const btn = e.target.closest('[data-menu-toggle]');
   const close = e.target.closest('[data-menu-close]');
   const oc = document.querySelector('.offcanvas');
-  if(btn && oc){ oc.classList.add('active'); }
-  if(close || (oc && e.target.classList.contains('scrim'))){ oc.classList.remove('active'); }
+  if(btn && oc){
+    oc.classList.add('active');
+    oc.setAttribute('aria-hidden', 'false');
+    try{ document.body.style.overflow='hidden'; }catch(_){ }
+  }
+  if(close || (oc && e.target.classList.contains('scrim'))){
+    oc.classList.remove('active');
+    oc.setAttribute('aria-hidden', 'true');
+    try{ document.body.style.overflow=''; }catch(_){ }
+  }
+});
+
+// Ripple feedback on selecting an off-canvas item
+addEventListener('click', e=>{
+  const link = e.target.closest('.offcanvas .panel a');
+  if(!link) return;
+  // Coordinates for ripple
+  const r = link.getBoundingClientRect();
+  const rx = ((e.clientX||0) - r.left);
+  const ry = ((e.clientY||0) - r.top);
+  link.style.setProperty('--rx', rx+'px');
+  link.style.setProperty('--ry', ry+'px');
+  link.classList.remove('ripple');
+  // Force reflow to restart animation
+  void link.offsetWidth;
+  link.classList.add('ripple');
+});
+
+// Ripple on desktop header menu items as well
+addEventListener('click', e=>{
+  const link = e.target.closest('.menu a');
+  if(!link) return;
+  const r = link.getBoundingClientRect();
+  const rx = ((e.clientX||0) - r.left);
+  const ry = ((e.clientY||0) - r.top);
+  link.style.setProperty('--rx', rx+'px');
+  link.style.setProperty('--ry', ry+'px');
+  link.classList.remove('ripple');
+  void link.offsetWidth;
+  link.classList.add('ripple');
 });
 
 // Services accordion (exclusive + auto-scroll)
