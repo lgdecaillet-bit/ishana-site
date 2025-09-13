@@ -23,7 +23,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .theme-toggle::after{content:"";position:absolute;bottom:0;left:50%;width:0;height:2px;background:var(--duo);border-radius:2px;transition:width .3s ease;transform:translateX(-50%);z-index:1}
 .theme-toggle:hover{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.25);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.4)}
 .theme-toggle:hover::after{width:80%}
-.btn-header{padding:7px 10px;font-size:11px;gap:5px;white-space:nowrap}
+.btn-header{padding:7px 10px;font-size:11px;gap:5px;white-space:nowrap;min-width:max-content}
 .lang-menu .flag{display:inline-flex;align-items:center;justify-content:center;width:1.2em;min-width:1.2em;line-height:1;margin-right:8px;filter:saturate(110%)}
 .lang-menu a{display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text);font-size:14px;border-radius:4px;transition:background .2s ease}
 .lang-menu a:hover{background:rgba(255,255,255,.1)}
@@ -71,11 +71,17 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
   .menu{display:none}
 }
 @media (max-width:680px){
-  .btn-header{font-size:12px;padding:8px 12px}
+  .nav .wrap{padding:0 14px;height:60px}
+  .actions{gap:8px}
+  .brand .mark{width:24px;height:24px}
+  .btn-header{font-size:11px;padding:7px 10px}
   .theme-toggle{padding:8px 10px;font-size:12px}
 }
 @media (max-width:480px){
   #themeToggle{display:none}
-  .btn-header{font-size:11px;padding:8px 10px}
+  .nav .wrap{padding:0 10px}
+  .actions{gap:6px}
+  .btn-header{font-size:10px;padding:6px 9px}
+  .lang-dropdown .theme-toggle{padding:6px 9px;font-size:11px;white-space:nowrap}
 }
 
