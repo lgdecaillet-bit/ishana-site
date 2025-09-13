@@ -281,7 +281,7 @@
           if (Array.isArray(phrases)) { phrases = phrases.join('|'); }
           if (typeof phrases !== 'string') { phrases = ''; }
 
-          const typedElement = document.querySelector('[data-typed]');
+            const typedElement = document.querySelector('[data-typed]');
           if (!typedElement) {
             console.log('Typed element not found');
             return;
@@ -353,8 +353,8 @@
     // Persist and reflect immediately
     try { document.documentElement.setAttribute('lang', lang); } catch(_) {}
     localStorage.setItem('lang', lang);
-    const params = new URLSearchParams(window.location.search);
-    params.set('lang', lang);
+      const params = new URLSearchParams(window.location.search);
+      params.set('lang', lang);
     window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}${location.hash||''}`);
     // Notify everyone (calendars/forms/i18n/typed)
     document.dispatchEvent(new CustomEvent('ish:lang-changed', { detail: { lang } }));
@@ -398,7 +398,7 @@
         }, 2000);
       }
     }catch(_){ }
-
+    
     try {
       // Check if we already have a stored language preference
       const storedLang = localStorage.getItem('lang');
@@ -407,8 +407,8 @@
         console.log('Stored language preference found:', storedLang);
         if (!onIntro) {
           // On content pages, honor stored preference and skip geo
-          showIntroInLanguage(storedLang);
-          return;
+        showIntroInLanguage(storedLang);
+        return;
         } else {
           // On the neutral intro page, show immediately in stored language,
           // but continue with geodetection and override once detected

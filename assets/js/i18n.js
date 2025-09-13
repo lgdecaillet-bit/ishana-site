@@ -35,17 +35,17 @@
     }
   } else {
     try{ document.documentElement.setAttribute('lang', lang); }catch(_){ }
-    localStorage.setItem("lang", lang);
+  localStorage.setItem("lang", lang);
     if(urlLang !== lang){ params.set("lang", lang); history.replaceState({}, "", `${location.pathname}?${params.toString()}${location.hash||""}`); }
   }
 
   function applyTranslations(targetLang){
     fetch(`/i18n/${targetLang}.json`, {cache:"no-cache"})
-      .then(r=>r.json())
-      .then(dict=>{
-        document.querySelectorAll("[data-i18n]").forEach(el=>{
-          const key = el.getAttribute("data-i18n");
-          const val = dict[key];
+    .then(r=>r.json())
+    .then(dict=>{
+      document.querySelectorAll("[data-i18n]").forEach(el=>{
+        const key = el.getAttribute("data-i18n");
+        const val = dict[key];
           if(typeof val === "string") el.innerHTML = val;
         });
       });
