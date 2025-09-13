@@ -158,3 +158,14 @@ html[data-theme="light"] .iframe-wrapper {
   border: 1px solid rgba(0,0,0,0.1);
 }
 
+/* Light theme language menu hover animations */
+html[data-theme="light"] .lang-menu a {
+  transition: background .2s ease, transform .2s ease, color .2s ease;
+}
+
+html[data-theme="light"] .lang-menu a:hover {
+  background: rgba(0,0,0,.1);
+  transform: translateX(4px);
+  color: var(--accent);
+}
+

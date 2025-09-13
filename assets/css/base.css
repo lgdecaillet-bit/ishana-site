@@ -11,6 +11,17 @@ html[data-theme="light"] {
 html[data-theme="light"] .offcanvas .panel a:hover {
   background: linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,0) 70%);
 }
+
+/* Light theme specific styles for language menu */
+html[data-theme="light"] .lang-menu button:hover {
+  background: rgba(0,0,0,.1);
+  transform: translateX(4px);
+}
+
+html[data-theme="light"] .lang-menu a:hover {
+  background: rgba(0,0,0,.1);
+  transform: translateX(4px);
+}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
   font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
