@@ -128,6 +128,7 @@ html[data-theme="light"] #booking iframe,
 html[data-theme="light"] #contact iframe {
   box-shadow: 0 10px 30px rgba(0,0,0,.10);
   border: 1px solid rgba(0,0,0,0.1);
+  background: white !important;
 }
 
 /* Iframe container for better theme integration */

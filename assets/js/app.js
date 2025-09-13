@@ -281,11 +281,38 @@ addEventListener('click', e => {
       if (isLightTheme) {
         wrapper.style.background = 'var(--ink)';
         wrapper.style.border = '1px solid rgba(0,0,0,0.1)';
-        iframe.style.filter = 'invert(1) hue-rotate(180deg) contrast(1.1)';
+        // Remove the problematic filter and use a different approach
+        iframe.style.filter = 'none';
+        iframe.style.background = 'white';
+        
+        // Add a subtle overlay to help with theme integration
+        if (!wrapper.querySelector('.theme-overlay')) {
+          const overlay = document.createElement('div');
+          overlay.className = 'theme-overlay';
+          overlay.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 12px;
+            z-index: 1;
+          `;
+          wrapper.appendChild(overlay);
+        }
       } else {
         wrapper.style.background = 'var(--obsidian)';
         wrapper.style.border = 'none';
         iframe.style.filter = 'none';
+        iframe.style.background = 'transparent';
+        
+        // Remove overlay in dark theme
+        const overlay = wrapper.querySelector('.theme-overlay');
+        if (overlay) {
+          overlay.remove();
+        }
       }
     });
   }
