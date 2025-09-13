@@ -6,6 +6,11 @@
 html[data-theme="light"] {
   --bg:#fff; --panel:#f7f7f9; --text:#0e0e10; --muted:#475569; --border:rgba(0,0,0,.16); --accent:#0e0e10;
 }
+
+/* Light theme specific styles for off-canvas menu */
+html[data-theme="light"] .offcanvas .panel a:hover {
+  background: linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,0) 70%);
+}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
   font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
@@ -43,7 +48,7 @@ h1{font-size:clamp(34px,6vw,64px)} p{margin:0 0 14px;line-height:1.7}
 /* Off-canvas */
 .offcanvas{position:fixed;inset:0;display:grid;grid-template-columns:min(420px,86%) 1fr;transform:translateX(-100%);transition:transform .32s ease;z-index:80}
 .offcanvas.active{transform:none}
-.offcanvas .panel{background:#000;border-right:1px solid var(--border);padding:28px;overflow:auto}
+.offcanvas .panel{background:var(--panel);border-right:1px solid var(--border);padding:28px;overflow:auto}
 .offcanvas .panel .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .offcanvas .panel a{position:relative;display:block;padding:14px 0;color:var(--text);border-bottom:1px solid var(--border);transition:color .25s ease, transform .25s ease, opacity .25s ease, background .2s ease, border-color .2s ease;opacity:.85;transform:none;overflow:hidden;cursor:pointer;border-left:2px solid transparent;padding-left:14px}
 .offcanvas.active .panel a{animation:ocItemIn .28s ease forwards;opacity:1}
