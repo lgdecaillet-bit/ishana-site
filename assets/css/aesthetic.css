@@ -106,3 +106,54 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
   margin: 2px 0;
 }
 
+/* Calendar and form iframe theme adaptation */
+.booking iframe,
+#booking iframe,
+#contact iframe {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Dark theme - no changes needed */
+html[data-theme="dark"] .booking iframe,
+html[data-theme="dark"] #booking iframe,
+html[data-theme="dark"] #contact iframe {
+  box-shadow: var(--shadow);
+}
+
+/* Light theme - add overlay and styling */
+html[data-theme="light"] .booking iframe,
+html[data-theme="light"] #booking iframe,
+html[data-theme="light"] #contact iframe {
+  box-shadow: 0 10px 30px rgba(0,0,0,.10);
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Iframe container for better theme integration */
+.iframe-container {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--obsidian);
+  transition: background 0.3s ease;
+}
+
+html[data-theme="light"] .iframe-container {
+  background: var(--ink);
+}
+
+/* Theme-aware iframe wrapper */
+.iframe-wrapper {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--obsidian);
+  transition: all 0.3s ease;
+}
+
+html[data-theme="light"] .iframe-wrapper {
+  background: var(--ink);
+  border: 1px solid rgba(0,0,0,0.1);
+}
+

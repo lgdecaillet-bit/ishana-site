@@ -260,3 +260,50 @@ addEventListener('click', e => {
   // Initial update
   updateActiveSection();
 })();
+
+// Iframe theme adaptation
+(function() {
+  function adaptIframesToTheme() {
+    const iframes = document.querySelectorAll('#booking iframe, #contact iframe');
+    const isLightTheme = document.documentElement.getAttribute('data-theme') === 'light';
+    
+    iframes.forEach(iframe => {
+      // Add wrapper if not exists
+      if (!iframe.parentElement.classList.contains('iframe-wrapper')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'iframe-wrapper';
+        iframe.parentNode.insertBefore(wrapper, iframe);
+        wrapper.appendChild(iframe);
+      }
+      
+      // Apply theme-specific styling
+      const wrapper = iframe.parentElement;
+      if (isLightTheme) {
+        wrapper.style.background = 'var(--ink)';
+        wrapper.style.border = '1px solid rgba(0,0,0,0.1)';
+        iframe.style.filter = 'invert(1) hue-rotate(180deg) contrast(1.1)';
+      } else {
+        wrapper.style.background = 'var(--obsidian)';
+        wrapper.style.border = 'none';
+        iframe.style.filter = 'none';
+      }
+    });
+  }
+  
+  // Apply on theme change
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      setTimeout(adaptIframesToTheme, 100); // Small delay to ensure theme is applied
+    });
+  }
+  
+  // Apply on page load
+  document.addEventListener('DOMContentLoaded', adaptIframesToTheme);
+  
+  // Apply when iframes load
+  const iframes = document.querySelectorAll('#booking iframe, #contact iframe');
+  iframes.forEach(iframe => {
+    iframe.addEventListener('load', adaptIframesToTheme);
+  });
+})();
