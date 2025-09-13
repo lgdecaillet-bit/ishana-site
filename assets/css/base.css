@@ -40,7 +40,7 @@ h1{font-size:clamp(34px,6vw,64px)} p{margin:0 0 14px;line-height:1.7}
 .offcanvas.active{transform:none}
 .offcanvas .panel{background:#000;border-right:1px solid var(--border);padding:28px;overflow:auto}
 .offcanvas .panel .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.offcanvas .panel a{position:relative;display:block;padding:14px 0;color:#fff;border-bottom:1px solid var(--border);transition:color .25s ease, transform .25s ease, opacity .25s ease, background .2s ease, border-color .2s ease;opacity:.85;transform:none;overflow:hidden;cursor:pointer;border-left:2px solid transparent;padding-left:14px}
+.offcanvas .panel a{position:relative;display:block;padding:14px 0;color:var(--text);border-bottom:1px solid var(--border);transition:color .25s ease, transform .25s ease, opacity .25s ease, background .2s ease, border-color .2s ease;opacity:.85;transform:none;overflow:hidden;cursor:pointer;border-left:2px solid transparent;padding-left:14px}
 .offcanvas.active .panel a{animation:ocItemIn .28s ease forwards;opacity:1}
 .offcanvas .panel a:hover{color:var(--accent);opacity:1;transform:translateY(-1px);background:linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,0) 70%);border-left-color:var(--accent)}
 .offcanvas .panel a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--duo);border-radius:2px;transition:width .25s ease}
@@ -79,7 +79,7 @@ h1{font-size:clamp(34px,6vw,64px)} p{margin:0 0 14px;line-height:1.7}
 /* Services accordion */
 .services-acc{max-width:1000px;margin:0 auto}
 .svc-item{border-top:1px solid var(--border)}
-.svc-q{width:100%;text-align:left;background:transparent;color:#fff;border:0;padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.svc-q{width:100%;text-align:left;background:transparent;color:var(--text);border:0;padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700}
 .svc-a{max-height:0;overflow:hidden;transition:max-height .25s ease}
 .svc-item.active .svc-a{max-height:700px}
 .svc-body{padding:0 0 18px 0;color:var(--muted)}
@@ -95,7 +95,7 @@ h1{font-size:clamp(34px,6vw,64px)} p{margin:0 0 14px;line-height:1.7}
 /* FAQ */
 .faq{max-width:900px;margin:0 auto}
 .faq-item{border-top:1px solid var(--border)}
-.faq-q{width:100%;text-align:left;background:transparent;color:#fff;border:0;padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.faq-q{width:100%;text-align:left;background:transparent;color:var(--text);border:0;padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease}
 .faq-item.active .faq-a{max-height:700px}
 .chev{transition:transform .25s ease;color:var(--muted)}
