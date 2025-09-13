@@ -1,3 +1,15 @@
+// Smooth scroll navigation function
+function smoothScrollTo(targetId) {
+  const targetElement = document.getElementById(targetId);
+  if(targetElement) {
+    const headerHeight = document.querySelector('.nav')?.offsetHeight || 0;
+    const y = targetElement.getBoundingClientRect().top + scrollY - (headerHeight + 20);
+    scrollTo({ top: y, behavior: 'smooth' });
+    return true;
+  }
+  return false;
+}
+
 // Off-canvas menu
 addEventListener('click', e=>{
   const btn = e.target.closest('[data-menu-toggle]');
@@ -15,10 +27,27 @@ addEventListener('click', e=>{
   }
 });
 
-// Ripple feedback on selecting an off-canvas item
+// Ripple feedback on selecting an off-canvas item + smooth scroll navigation
 addEventListener('click', e=>{
   const link = e.target.closest('.offcanvas .panel a');
   if(!link) return;
+  
+  // Handle navigation for hash links
+  const href = link.getAttribute('href');
+  if(href && href.startsWith('#')) {
+    const targetId = href.substring(1);
+    
+    if(smoothScrollTo(targetId)) {
+      // Close the off-canvas menu
+      const oc = document.querySelector('.offcanvas');
+      if(oc) {
+        oc.classList.remove('active');
+        oc.setAttribute('aria-hidden', 'true');
+        try{ document.body.style.overflow=''; }catch(_){ }
+      }
+    }
+  }
+  
   // Coordinates for ripple
   const r = link.getBoundingClientRect();
   const rx = ((e.clientX||0) - r.left);
@@ -31,10 +60,18 @@ addEventListener('click', e=>{
   link.classList.add('ripple');
 });
 
-// Ripple on desktop header menu items as well
+// Ripple on desktop header menu items + smooth scroll navigation
 addEventListener('click', e=>{
   const link = e.target.closest('.menu a');
   if(!link) return;
+  
+  // Handle navigation for hash links
+  const href = link.getAttribute('href');
+  if(href && href.startsWith('#')) {
+    const targetId = href.substring(1);
+    smoothScrollTo(targetId);
+  }
+  
   const r = link.getBoundingClientRect();
   const rx = ((e.clientX||0) - r.left);
   const ry = ((e.clientY||0) - r.top);
@@ -168,3 +205,58 @@ addEventListener('click', e => {
     langMenu.classList.remove('active');
   }
 });
+
+// Footer navigation links
+addEventListener('click', e => {
+  const link = e.target.closest('.footer-links a, .footer a[href^="#"]');
+  if(!link) return;
+  
+  const href = link.getAttribute('href');
+  if(href && href.startsWith('#')) {
+    e.preventDefault();
+    const targetId = href.substring(1);
+    smoothScrollTo(targetId);
+  }
+});
+
+// Active section indicator for navigation
+(function() {
+  const sections = ['home', 'difference', 'services', 'team', 'booking', 'faq', 'contact'];
+  const navLinks = document.querySelectorAll('.offcanvas .panel a[href^="#"], .menu a[href^="#"]');
+  
+  function updateActiveSection() {
+    const scrollPos = window.scrollY + 100; // Offset for header height
+    
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const section = document.getElementById(sections[i]);
+      if (section && section.offsetTop <= scrollPos) {
+        // Remove active class from all links
+        navLinks.forEach(link => link.classList.remove('active'));
+        
+        // Add active class to current section link
+        const activeLink = document.querySelector(`a[href="#${sections[i]}"]`);
+        if (activeLink) {
+          activeLink.classList.add('active');
+        }
+        break;
+      }
+    }
+  }
+  
+  // Update on scroll
+  let ticking = false;
+  function requestTick() {
+    if (!ticking) {
+      requestAnimationFrame(updateActiveSection);
+      ticking = true;
+    }
+  }
+  
+  window.addEventListener('scroll', () => {
+    ticking = false;
+    requestTick();
+  });
+  
+  // Initial update
+  updateActiveSection();
+})();

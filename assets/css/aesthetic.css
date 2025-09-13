@@ -34,7 +34,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .hero h1 .fx{background:linear-gradient(90deg, var(--sand), var(--gold) 30%, var(--oasis) 65%, var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{max-width:60ch;color:var(--muted);margin:0 0 28px}
 .btn{position:relative;display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;font-weight:600;text-decoration:none;color:var(--text);background:linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.14);box-shadow:var(--shadow);transform:translateZ(0)}
-.btn::before{content:"";position:absolute;inset:-1px;border-radius:13px;padding:1px;background:var(--duo);-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.7;transition:opacity .25s ease}
+.btn::before{content:"";position:absolute;inset:-1px;border-radius:13px;padding:1px;background:var(--duo);-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.7;transition:opacity .25s ease}
 .btn:hover{box-shadow:0 0 0 2px rgba(22,163,74,0.18), 0 0 0 6px rgba(226,60,60,0.12), 0 14px 40px rgba(0,0,0,.5)}
 .btn:hover::before{opacity:1}
 .btn-primary{background:radial-gradient(120% 180% at 0% 0%, rgba(124,92,255,0.18), rgba(0,0,0,0) 30%),linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02))}
@@ -83,5 +83,26 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
   .actions{gap:6px}
   .btn-header{font-size:10px;padding:6px 9px}
   .lang-dropdown .theme-toggle{padding:6px 9px;font-size:11px;white-space:nowrap}
+}
+
+/* Active navigation link styles */
+.menu a.active,
+.offcanvas .panel a.active {
+  opacity: 1;
+  color: var(--oasis);
+  font-weight: 600;
+}
+
+.menu a.active::after,
+.offcanvas .panel a.active::after {
+  width: 100%;
+  background: var(--duo);
+}
+
+.offcanvas .panel a.active {
+  background: var(--duo-soft);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 2px 0;
 }
 
