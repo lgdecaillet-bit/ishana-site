@@ -271,52 +271,42 @@
     
     if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
       // Load language file and update intro phrases
-      fetch(`/i18n/${lang}.json`)
+      fetch(`/i18n/${lang}.json`, { cache: 'no-cache' })
         .then(response => response.json())
         .then(data => {
           console.log('Language data loaded:', data);
           
-          const phrases = (data.intro && data.intro.phrases) || data["intro.phrases"];
-          if (phrases) {
-            const typedElement = document.querySelector('[data-typed]');
-            if (typedElement) {
-              console.log('Updating typed element with phrases:', data.intro.phrases);
-              
-              // Update the data-phrases attribute
-              typedElement.setAttribute('data-phrases', phrases);
-              
-              // Wait for Typed.js to be available
-              const initTyped = () => {
-                if (window.Typed) {
-                  console.log('Typed.js available, creating new instance');
-                  
-                  // Restart typing animation with new phrases
-                  if (window.typedInstance) {
-                    window.typedInstance.destroy();
-                  }
-                  
-                  // Create new typed instance with translated phrases
-                  window.typedInstance = new Typed(typedElement, {
-                    strings: phrases.split('|'),
-                    typeSpeed: 45,
-                    backSpeed: 28,
-                    backDelay: 1500,
-                    loop: true
-                  });
-                } else {
-                  console.log('Typed.js not available yet, waiting...');
-                  // Wait a bit more for Typed.js to load
-                  setTimeout(initTyped, 100);
-                }
-              };
-              
-              initTyped();
-            } else {
-              console.log('Typed element not found');
-            }
-          } else {
-            console.log('No intro phrases found in language data');
+          // Support both flat key "intro.phrases" and nested object { intro: { phrases } }
+          let phrases = data && (data["intro.phrases"] || (data.intro && data.intro.phrases));
+          if (Array.isArray(phrases)) { phrases = phrases.join('|'); }
+          if (typeof phrases !== 'string') { phrases = ''; }
+
+          const typedElement = document.querySelector('[data-typed]');
+          if (!typedElement) {
+            console.log('Typed element not found');
+            return;
           }
+
+          if (!phrases) {
+            console.warn('No intro phrases found in language data for', lang);
+            return;
+          }
+
+          console.log('Updating typed element with phrases:', phrases);
+          // Update the data-phrases attribute
+          typedElement.setAttribute('data-phrases', phrases);
+          // Immediately reflect the first phrase so user sees correct language instantly
+          try{
+            const first = (phrases.split('|')[0]||'').trim();
+            if(first) typedElement.textContent = first;
+          }catch(_){ }
+          // Restart our lightweight typed effect with retries until it's available
+          (function tryStart(retries){
+            try{
+              if(typeof window.startTyped === 'function'){ window.startTyped(phrases); return; }
+            }catch(_){ }
+            if(retries>0) setTimeout(()=>tryStart(retries-1), 120);
+          })(20);
         })
         .catch(error => {
           console.error('Error loading intro phrases:', error);
@@ -343,6 +333,8 @@
 
     // Update intro phrases and start typing animation
     updateIntroPhrases(lang);
+    // Ensure typed effect starts even if phrases already present
+    try{ if(typeof window.startTyped === 'function'){ window.startTyped(); } }catch(_){ }
     
     // Update skip and CTA links
     const skipLink = document.getElementById('skipLink');
@@ -358,16 +350,14 @@
 
   // Function to set language and update UI
   function setLanguage(lang) {
+    // Persist and reflect immediately
+    try { document.documentElement.setAttribute('lang', lang); } catch(_) {}
     localStorage.setItem('lang', lang);
     const params = new URLSearchParams(window.location.search);
     params.set('lang', lang);
     window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}${location.hash||''}`);
-    // If we're on home.html, do not reload; notify listeners to update UI (calendars/forms/i18n)
-    if (window.location.pathname.includes('home.html')) {
-      try { document.documentElement.setAttribute('lang', lang); } catch(_) {}
-      document.dispatchEvent(new CustomEvent('ish:lang-changed', { detail: { lang } }));
-      return;
-    }
+    // Notify everyone (calendars/forms/i18n/typed)
+    document.dispatchEvent(new CustomEvent('ish:lang-changed', { detail: { lang } }));
     // If on intro/index, update its content live
     if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
       showIntroInLanguage(lang);
@@ -380,9 +370,12 @@
     // Do not override explicit route-language pages like /en/home.html, /es/home.html, /fr/home.html
     try{
       const seg = window.location.pathname.split('/').filter(Boolean)[0];
+      const onIntro = window.location.pathname.includes('index.html') || window.location.pathname === '/';
+      const onHome = window.location.pathname.includes('home.html');
       const manual = localStorage.getItem('ish-lang-manual') === '1';
-      if (manual) { console.log('Manual language selected; skipping geo'); return; }
-      if (['en','es','fr'].includes(seg) && window.location.pathname.includes('home.html')) {
+      // If user manually chose a language, skip geo only on content pages; always run on intro
+      if (manual && !onIntro) { console.log('Manual language selected; skipping geo on content pages'); return; }
+      if (['en','es','fr'].includes(seg) && onHome) {
         console.log('Route-based language detected (', seg, ') — skipping geo override on home');
         // Normalize storage to route language immediately
         try { document.documentElement.setAttribute('lang', seg); } catch(_) {}
@@ -391,13 +384,36 @@
       }
     }catch(_){/* ignore */}
     
+    let fallbackTimer = null;
+    // Fast-show fallback if geo is slow (2s)
+    try {
+      if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+        fallbackTimer = setTimeout(()=>{
+          try{
+            const storedLang = localStorage.getItem('lang');
+            const browserLang = (navigator.language||'en').slice(0,2);
+            const lang = (storedLang&&['en','es','fr'].includes(storedLang)) ? storedLang : (browserLang.startsWith('es')?'es':browserLang.startsWith('fr')?'fr':'en');
+            showIntroInLanguage(lang);
+          }catch(_){ showIntroInLanguage('en'); }
+        }, 2000);
+      }
+    }catch(_){ }
+
     try {
       // Check if we already have a stored language preference
       const storedLang = localStorage.getItem('lang');
+      const onIntro = window.location.pathname.includes('index.html') || window.location.pathname === '/';
       if (storedLang && ['en', 'es', 'fr'].includes(storedLang)) {
-        console.log('Using stored language preference:', storedLang);
-        showIntroInLanguage(storedLang);
-        return;
+        console.log('Stored language preference found:', storedLang);
+        if (!onIntro) {
+          // On content pages, honor stored preference and skip geo
+          showIntroInLanguage(storedLang);
+          return;
+        } else {
+          // On the neutral intro page, show immediately in stored language,
+          // but continue with geodetection and override once detected
+          showIntroInLanguage(storedLang);
+        }
       }
 
       console.log('Detecting location...');
@@ -441,9 +457,11 @@
         }
         setLanguage(detectedLang); // dispatch change (no reload)
       } else {
-        showIntroInLanguage(detectedLang);
+        // On intro: reflect detected language and update content
+        setLanguage(detectedLang);
       }
 
+      try{ if(fallbackTimer){ clearTimeout(fallbackTimer); } }catch(_){ }
     } catch (error) {
       console.error('Error detecting location:', error);
       
@@ -474,7 +492,7 @@
           if (window.location.pathname.includes('home.html')) {
             setLanguage(detectedLang);
           } else {
-            showIntroInLanguage(detectedLang);
+            setLanguage(detectedLang);
           }
         } else {
           throw new Error('Alternative service also failed');
@@ -488,12 +506,9 @@
                             browserLang.startsWith('fr') ? 'fr' : 'en';
         
         console.log('Using browser language fallback:', fallbackLang);
-        if (window.location.pathname.includes('home.html')) {
-          setLanguage(fallbackLang);
-        } else {
-          showIntroInLanguage(fallbackLang);
-        }
+        setLanguage(fallbackLang);
       }
+      try{ if(fallbackTimer){ clearTimeout(fallbackTimer); } }catch(_){ }
     }
   }
 
@@ -519,5 +534,15 @@
   console.log('Geo-detect script loaded successfully');
   console.log('Current page:', window.location.pathname);
   console.log('Intro content element:', document.getElementById('introContent'));
+
+  // When language changes via header/footer on the intro page, reload phrases immediately
+  document.addEventListener('ish:lang-changed', (e)=>{
+    try{
+      const next = (e.detail && e.detail.lang) || 'en';
+      if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+        showIntroInLanguage(next);
+      }
+    }catch(_){ }
+  });
 
 })();
