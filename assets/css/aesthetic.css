@@ -19,7 +19,10 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 /* Ripple for desktop menu links */
 .menu a.ripple::before{content:"";position:absolute;left:var(--rx,50%);top:var(--ry,50%);width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);transform:translate(-50%,-50%) scale(0);pointer-events:none;animation:ripple .6s ease forwards}
 @keyframes ripple{to{transform:translate(-50%,-50%) scale(24);opacity:0}}
-.theme-toggle{cursor:pointer;border:1px solid rgba(255,255,255,.12);background:var(--glass);color:var(--text);padding:9px 14px;border-radius:999px;font-size:13px}
+.theme-toggle{cursor:pointer;border:1px solid rgba(255,255,255,.12);background:var(--glass);color:var(--text);padding:9px 14px;border-radius:999px;font-size:13px;position:relative;transition:all .3s ease;overflow:visible}
+.theme-toggle::after{content:"";position:absolute;bottom:0;left:50%;width:0;height:2px;background:var(--duo);border-radius:2px;transition:width .3s ease;transform:translateX(-50%);z-index:1}
+.theme-toggle:hover{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.25);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.4)}
+.theme-toggle:hover::after{width:80%}
 .btn-header{padding:7px 10px;font-size:11px;gap:5px}
 .lang-menu .flag{display:inline-flex;align-items:center;justify-content:center;width:1.2em;min-width:1.2em;line-height:1;margin-right:8px;filter:saturate(110%)}
 .lang-menu a{display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text);font-size:14px;border-radius:4px;transition:background .2s ease}
