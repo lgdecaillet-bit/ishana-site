@@ -1,6 +1,12 @@
 (function(){
   const el = document.getElementById('heroShell');
   if(!el) return;
+  try{
+    if(window.matchMedia && window.matchMedia('(pointer: coarse)').matches){
+      // Skip tilt effect on touch devices to improve mobile UX/perf
+      return;
+    }
+  }catch(_){ }
   let rafId = null;
   let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
   function onMove(e){
