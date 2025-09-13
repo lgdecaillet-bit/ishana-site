@@ -1,6 +1,11 @@
 :root{
   --bg:#000; --panel:#0f0f12; --text:#fff; --muted:#cfcfd6; --border:rgba(255,255,255,.16); --accent:#fff; --maxw:1200px;
 }
+
+/* Light theme variables */
+html[data-theme="light"] {
+  --bg:#fff; --panel:#f7f7f9; --text:#0e0e10; --muted:#475569; --border:rgba(0,0,0,.16); --accent:#0e0e10;
+}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
   font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
