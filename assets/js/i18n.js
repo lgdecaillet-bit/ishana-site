@@ -1,5 +1,5 @@
 (function(){
-  const SUPPORTED = ["en","es","fr","de"];
+  const SUPPORTED = ["en","es","fr"];
   const params = new URLSearchParams(location.search);
   const urlLang = params.get("lang");
   const docLang = (document.documentElement.getAttribute('lang')||'').slice(0,2);
